@@ -8,6 +8,9 @@ public class FieldList {
     public FieldList(Size size){
         this.size=size;
         fields=new ArrayList<>();
+        for(int i=0; i< size.getY(); i++){
+            fields.add(new ArrayList<>());
+        }
     }
 
     public Size getSize() {
@@ -15,13 +18,15 @@ public class FieldList {
     }
 
     public ArrayList<Field> getRow(int rowIndex) throws ArrayIndexOutOfBoundsException{
-        try{
-            return fields.get(rowIndex);
-        } catch (Exception e){
-            throw new ArrayIndexOutOfBoundsException("Getting row of fields from the fields' list failed: "+e.getMessage());
-        }
+        if(rowIndex<=size.getY())
+            if(rowIndex>=0)
+                return fields.get(rowIndex);
+            else
+                return null;
+        else
+            throw new ArrayIndexOutOfBoundsException("Row index overflow");
     }
-    public void addRow(ArrayList<Field> rowOfFields) throws RuntimeException {
+    public void addRow(ArrayList<Field> rowOfFields) throws ArrayIndexOutOfBoundsException {
         if(rowOfFields.size()==size.getX()){
             try{
                 fields.add(rowOfFields);
@@ -30,6 +35,18 @@ public class FieldList {
             }
         } else{
             throw new ArrayIndexOutOfBoundsException("The row size does not fit to the fields' list.");
+        }
+    }
+
+    public void setRow(int rowIndex, ArrayList<Field> newRow) throws ArrayIndexOutOfBoundsException{
+        if(rowIndex<=size.getY()){
+            if(getRow(rowIndex).isEmpty()){
+                fields.add(newRow);
+            } else{
+                fields.set(rowIndex, newRow);
+            }
+        } else {
+            throw new ArrayIndexOutOfBoundsException("Row index overflow");
         }
     }
 }
