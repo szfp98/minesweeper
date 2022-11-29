@@ -1,5 +1,8 @@
 package minefield;
 
+/**
+ *
+ */
 public class Field {
     private final Position position;
     private final int value;
@@ -7,6 +10,11 @@ public class Field {
     private boolean isOpened;
     private boolean hasFlag;
     private boolean hasQuestionMark;
+
+    /**
+     * @param position
+     * @param value
+     */
     public Field(Position position, int value) {
         this.position=position;
         this.value=value;
@@ -15,6 +23,11 @@ public class Field {
         hasFlag=false;
         hasQuestionMark=false;
     }
+
+    /**
+     * @param position
+     * @param bomb
+     */
     public Field(Position position, Bomb bomb){
         this.position=position;
         this.value=0;
@@ -23,16 +36,26 @@ public class Field {
         this.hasFlag=false;
         this.hasQuestionMark=false;
     }
-    public void setFlag() throws IllegalAccessException {
+
+    /**
+     * @param value
+     * @throws IllegalAccessException
+     */
+    public void setFlag(boolean value) throws IllegalAccessException {
         if(!isOpened){
-            hasFlag=!hasFlag;
+            hasFlag=value;
         } else {
             throw new IllegalAccessException("This field is already opened.");
         }
     }
-    public void setQuestionMark() throws IllegalAccessException {
+
+    /**
+     * @param value
+     * @throws IllegalAccessException
+     */
+    public void setQuestionMark(boolean value) throws IllegalAccessException {
         if(!isOpened){
-            hasQuestionMark=!hasQuestionMark;
+            hasQuestionMark=value;
         } else{
             throw new IllegalAccessException("This field is already opened.");
         }

@@ -2,9 +2,16 @@ package minefield;
 
 import java.util.ArrayList;
 
+/**
+ *
+ */
 public class FieldList {
     private ArrayList<ArrayList<Field>> fields;
     private Size size;
+
+    /**
+     * @param size
+     */
     public FieldList(Size size){
         this.size=size;
         fields=new ArrayList<>();
@@ -13,10 +20,18 @@ public class FieldList {
         }
     }
 
+    /**
+     * @return
+     */
     public Size getSize() {
         return size;
     }
 
+    /**
+     * @param rowIndex
+     * @return
+     * @throws ArrayIndexOutOfBoundsException
+     */
     public ArrayList<Field> getRow(int rowIndex) throws ArrayIndexOutOfBoundsException{
         if(rowIndex<=size.getY())
             if(rowIndex>=0)
@@ -26,6 +41,11 @@ public class FieldList {
         else
             throw new ArrayIndexOutOfBoundsException("Row index overflow");
     }
+
+    /**
+     * @param rowOfFields
+     * @throws ArrayIndexOutOfBoundsException
+     */
     public void addRow(ArrayList<Field> rowOfFields) throws ArrayIndexOutOfBoundsException {
         if(rowOfFields.size()==size.getX()){
             try{
@@ -38,6 +58,11 @@ public class FieldList {
         }
     }
 
+    /**
+     * @param rowIndex
+     * @param newRow
+     * @throws ArrayIndexOutOfBoundsException
+     */
     public void setRow(int rowIndex, ArrayList<Field> newRow) throws ArrayIndexOutOfBoundsException{
         if(rowIndex<=size.getY()){
             if(getRow(rowIndex).isEmpty()){

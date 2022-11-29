@@ -3,12 +3,21 @@ package minefield;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ *
+ */
 public abstract class Minefield {
     private FieldList fields;
     private int basicBombs;
     private int timeBombs;
     private ArrayList<Position> bombPositions;
 
+    /**
+     * @param random
+     * @param bound
+     * @param exceptions
+     * @return
+     */
     private int newRandomNumber(Random random, int bound, int[] exceptions){
         int ret=random.nextInt(bound+1-exceptions.length);
         for(int ex:exceptions){
@@ -19,6 +28,11 @@ public abstract class Minefield {
         return ret;
     }
 
+    /**
+     * @param amount
+     * @param exceptions
+     * @return
+     */
     private Position[] setBombPositions(int amount, ArrayList<Position> exceptions){
         int[] xExceptions=new int[exceptions.size()];
         int[] yExceptions=new int[exceptions.size()];
@@ -29,13 +43,16 @@ public abstract class Minefield {
         Position[] ret=new Position[amount];
         Random random=new Random();
         for(int i=0; i<amount; i++){
-            int x=newRandomNumber(random, fields.getSize().getX()+1, xExceptions);
+            int x=newRandomNumber(random, fields.getSize().getX(), xExceptions);
             int y=newRandomNumber(random, fields.getSize().getY(), yExceptions);
             ret[i]=new Position(x, y);
         }
         return ret;
     }
 
+    /**
+     * @throws ArrayIndexOutOfBoundsException
+     */
     private void createBombFields() throws ArrayIndexOutOfBoundsException{
         try{
             Position[] basicBombPositions=setBombPositions(basicBombs, bombPositions);

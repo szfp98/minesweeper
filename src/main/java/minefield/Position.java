@@ -1,5 +1,8 @@
 package minefield;
 
+/**
+ *
+ */
 public class Position {
     private final int x;
     private final int y;
@@ -7,9 +10,17 @@ public class Position {
         this.x=x;
         this.y=y;
     }
+
+    /**
+     * @return
+     */
     public int getX(){
         return x;
     }
+
+    /**
+     * @return
+     */
     public int getY() {
         return y;
     }
