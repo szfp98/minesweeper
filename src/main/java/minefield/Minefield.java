@@ -7,9 +7,11 @@ import java.util.Random;
  *
  */
 public abstract class Minefield {
-    private FieldList fields;
-    private int basicBombs;
-    private int timeBombs;
+    protected FieldList fields;
+    protected int basicBombs;
+    protected int timeBombs;
+
+    protected int explodingTime;
     private ArrayList<Position> bombPositions;
 
     /**
@@ -55,6 +57,7 @@ public abstract class Minefield {
      */
     private void createBombFields() throws ArrayIndexOutOfBoundsException, ArrayStoreException{
         try{
+            bombPositions=new ArrayList<>();
             Position[] basicBombPositions=setBombPositions(basicBombs, bombPositions);
             for(Position pos:basicBombPositions){
                 ArrayList<Field> row=fields.getRow(pos.getY());
@@ -66,7 +69,7 @@ public abstract class Minefield {
                 Position[] timeBombPositions=setBombPositions(timeBombs, bombPositions);
                 for(Position pos : timeBombPositions){
                     ArrayList<Field> row=fields.getRow(pos.getY());
-                    row.add(pos.getX(), new Field(pos, new TimeBomb()));
+                    row.add(pos.getX(), new Field(pos, new TimeBomb(explodingTime)));
                     fields.setRow(pos.getY(), row);
                     bombPositions.add(pos);
                 }
@@ -78,7 +81,42 @@ public abstract class Minefield {
         }
     }
 
-    public void generateMinefield(FieldList fields, int basicBombs, int timeBombs){
-        
+    private int[][] setFieldsValues(){
+        int[][] fieldsValues=new int[fields.getSize().getY()][fields.getSize().getX()];
+        for(int i=0; i<fields.getSize().getY(); i++){
+            for(int j=0; j<fields.getSize().getX(); j++){
+                fieldsValues[i][j]=0;
+            }
+        }
+        for(Position p:bombPositions){
+            for(int i=p.getY()-1; i<=p.getY()+1; i++){
+                for(int j=p.getX()-1; i<= p.getX()+1; j++){
+                    if(!(i== p.getY()&&j==p.getX()))
+                        fieldsValues[i][j]++;
+                    else
+                        fieldsValues[i][j]=-1;
+                }
+            }
+        }
+        return fieldsValues;
+    }
+
+    public void generateMinefield(){
+        try{
+            createBombFields();
+            int[][] fieldsValues=setFieldsValues();
+            for(int i=0; i<fields.getSize().getY(); i++){
+                ArrayList<Field> row=fields.getRow(i);
+                for(int j=0; j<fields.getSize().getX(); j++){
+                    Position pos=new Position(j, i);
+                    if(!bombPositions.contains(pos)){
+                        row.add(j, new Field(pos, fieldsValues[j][i]));
+                    }
+                }
+                fields.setRow(i, row);
+            }
+        } catch (ArrayStoreException | ArrayIndexOutOfBoundsException e){
+            throw new RuntimeException("Creation of the minefield failed: "+e.getMessage());
+        }
     }
 }

@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class FieldList {
     private ArrayList<ArrayList<Field>> fields;
-    private Size size;
+    private final Size size;
 
     /**
      * @param size
@@ -43,7 +43,7 @@ public class FieldList {
      * @param rowOfFields
      * @throws ArrayIndexOutOfBoundsException
      */
-    public void addRow(ArrayList<Field> rowOfFields) throws ArrayIndexOutOfBoundsException {
+    private void addRow(ArrayList<Field> rowOfFields) throws ArrayIndexOutOfBoundsException {
         if(rowOfFields.size()==size.getX()){
             try{
                 fields.add(rowOfFields);

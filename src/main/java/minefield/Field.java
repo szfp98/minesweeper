@@ -39,25 +39,19 @@ public class Field {
 
     /**
      * @param value
-     * @throws IllegalAccessException
      */
-    public void setFlag(boolean value) throws IllegalAccessException {
+    public void setFlag(boolean value){
         if(!isOpened){
             hasFlag=value;
-        } else {
-            throw new IllegalAccessException("This field is already opened.");
         }
     }
 
     /**
      * @param value
-     * @throws IllegalAccessException
      */
-    public void setQuestionMark(boolean value) throws IllegalAccessException {
+    public void setQuestionMark(boolean value){
         if(!isOpened){
             hasQuestionMark=value;
-        } else{
-            throw new IllegalAccessException("This field is already opened.");
         }
     }
 }
