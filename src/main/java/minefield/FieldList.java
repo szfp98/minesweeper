@@ -33,11 +33,8 @@ public class FieldList {
      * @throws ArrayIndexOutOfBoundsException
      */
     public ArrayList<Field> getRow(int rowIndex) throws ArrayIndexOutOfBoundsException{
-        if(rowIndex<=size.getY())
-            if(rowIndex>=0)
-                return fields.get(rowIndex);
-            else
-                return null;
+        if(rowIndex<=size.getY()&&rowIndex>=0)
+            return fields.get(rowIndex);
         else
             throw new ArrayIndexOutOfBoundsException("Row index overflow");
     }
@@ -63,15 +60,19 @@ public class FieldList {
      * @param newRow
      * @throws ArrayIndexOutOfBoundsException
      */
-    public void setRow(int rowIndex, ArrayList<Field> newRow) throws ArrayIndexOutOfBoundsException{
-        if(rowIndex<=size.getY()){
-            if(getRow(rowIndex).isEmpty()){
-                fields.add(newRow);
-            } else{
-                fields.set(rowIndex, newRow);
+    public void setRow(int rowIndex, ArrayList<Field> newRow) throws ArrayIndexOutOfBoundsException, ArrayStoreException{
+        try{
+            if(rowIndex<=size.getY()){
+                if(getRow(rowIndex).isEmpty()){
+                    addRow(newRow);
+                } else{
+                    fields.set(rowIndex, newRow);
+                }
+            } else {
+                throw new ArrayIndexOutOfBoundsException("Row index overflow");
             }
-        } else {
-            throw new ArrayIndexOutOfBoundsException("Row index overflow");
+        } catch(Exception e){
+            throw new ArrayStoreException("Modifying the fields' list failed: "+e.getMessage());
         }
     }
 }

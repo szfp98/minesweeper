@@ -53,7 +53,7 @@ public abstract class Minefield {
     /**
      * @throws ArrayIndexOutOfBoundsException
      */
-    private void createBombFields() throws ArrayIndexOutOfBoundsException{
+    private void createBombFields() throws ArrayIndexOutOfBoundsException, ArrayStoreException{
         try{
             Position[] basicBombPositions=setBombPositions(basicBombs, bombPositions);
             for(Position pos:basicBombPositions){
@@ -73,6 +73,8 @@ public abstract class Minefield {
             }
         } catch (ArrayIndexOutOfBoundsException e){
             throw new ArrayIndexOutOfBoundsException(e.getMessage());
+        } catch (ArrayStoreException e){
+            throw new ArrayStoreException(e.getMessage());
         }
     }
 
