@@ -21,26 +21,25 @@ public abstract class Minefield {
      * @return
      */
     private int newRandomNumber(Random random, int bound, int[] exceptions){
-        int ret=random.nextInt(bound+1-exceptions.length);
-        for(int ex:exceptions){
-            if(ret<ex)
-                break;
-            ret++;
+        int ret=random.nextInt(bound-exceptions.length);
+        if(exceptions.length>0){
+            for(int ex:exceptions){
+                if(ret<ex)
+                    break;
+                ret++;
+            }
         }
         return ret;
     }
 
-    /**
-     * @param amount
-     * @param exceptions
-     * @return
-     */
-    private Position[] setBombPositions(int amount, ArrayList<Position> exceptions){
-        int[] xExceptions=new int[exceptions.size()];
-        int[] yExceptions=new int[exceptions.size()];
-        for(int i=0; i<exceptions.size(); i++){
-            xExceptions[i]=exceptions.get(i).getX();
-            yExceptions[i]=exceptions.get(i).getY();
+    private Position[] setBombPositions(int amount){
+        int[] xExceptions=new int[bombPositions.size()];
+        int[] yExceptions=new int[bombPositions.size()];
+        if(!bombPositions.isEmpty()){
+            for(int i=0; i<bombPositions.size(); i++){
+                xExceptions[i]=bombPositions.get(i).getX();
+                yExceptions[i]=bombPositions.get(i).getY();
+            }
         }
         Position[] ret=new Position[amount];
         Random random=new Random();
@@ -58,18 +57,18 @@ public abstract class Minefield {
     private void createBombFields() throws ArrayIndexOutOfBoundsException, ArrayStoreException{
         try{
             bombPositions=new ArrayList<>();
-            Position[] basicBombPositions=setBombPositions(basicBombs, bombPositions);
+            Position[] basicBombPositions=setBombPositions(basicBombs);
             for(Position pos:basicBombPositions){
                 ArrayList<Field> row=fields.getRow(pos.getY());
-                row.add(pos.getX(), new Field(pos, new Bomb()));
+                row.set(pos.getX(), new Field(pos, new Bomb()));
                 fields.setRow(pos.getY(), row);
                 bombPositions.add(pos);
             }
             if(timeBombs>0){
-                Position[] timeBombPositions=setBombPositions(timeBombs, bombPositions);
+                Position[] timeBombPositions=setBombPositions(timeBombs);
                 for(Position pos : timeBombPositions){
                     ArrayList<Field> row=fields.getRow(pos.getY());
-                    row.add(pos.getX(), new Field(pos, new TimeBomb(explodingTime)));
+                    row.set(pos.getX(), new Field(pos, new TimeBomb(explodingTime)));
                     fields.setRow(pos.getY(), row);
                     bombPositions.add(pos);
                 }
@@ -90,11 +89,15 @@ public abstract class Minefield {
         }
         for(Position p:bombPositions){
             for(int i=p.getY()-1; i<=p.getY()+1; i++){
-                for(int j=p.getX()-1; i<= p.getX()+1; j++){
-                    if(!(i== p.getY()&&j==p.getX()))
-                        fieldsValues[i][j]++;
-                    else
-                        fieldsValues[i][j]=-1;
+                if(i>=0&&i<fields.getSize().getY()){
+                    for(int j=p.getX()-1; j<= p.getX()+1; j++){
+                        if(j>=0&&j<fields.getSize().getX()){
+                            if(!(i== p.getY()&&j==p.getX()))
+                                fieldsValues[i][j]++;
+                            else
+                                fieldsValues[i][j]=-1;
+                        }
+                    }
                 }
             }
         }
@@ -110,7 +113,7 @@ public abstract class Minefield {
                 for(int j=0; j<fields.getSize().getX(); j++){
                     Position pos=new Position(j, i);
                     if(!bombPositions.contains(pos)){
-                        row.add(j, new Field(pos, fieldsValues[j][i]));
+                        row.set(j, new Field(pos, fieldsValues[j][i]));
                     }
                 }
                 fields.setRow(i, row);

@@ -16,7 +16,11 @@ public class FieldList {
         this.size=size;
         fields=new ArrayList<>();
         for(int i=0; i< size.getY(); i++){
-            fields.add(new ArrayList<>());
+            ArrayList<Field> row=new ArrayList<>();
+            for(int j=0; j< size.getX(); j++){
+                row.add(null);
+            }
+            fields.add(row);
         }
     }
 
@@ -33,26 +37,10 @@ public class FieldList {
      * @throws ArrayIndexOutOfBoundsException
      */
     public ArrayList<Field> getRow(int rowIndex) throws ArrayIndexOutOfBoundsException{
-        if(rowIndex<=size.getY()&&rowIndex>=0)
+        if(rowIndex<size.getY()&&rowIndex>=0)
             return fields.get(rowIndex);
         else
             throw new ArrayIndexOutOfBoundsException("Row index overflow");
-    }
-
-    /**
-     * @param rowOfFields
-     * @throws ArrayIndexOutOfBoundsException
-     */
-    private void addRow(ArrayList<Field> rowOfFields) throws ArrayIndexOutOfBoundsException {
-        if(rowOfFields.size()==size.getX()){
-            try{
-                fields.add(rowOfFields);
-            } catch (Exception e){
-                throw new ArrayStoreException("Adding row of fields to the fields' list failed: "+e.getMessage());
-            }
-        } else{
-            throw new ArrayIndexOutOfBoundsException("The row size does not fit to the fields' list.");
-        }
     }
 
     /**
@@ -62,12 +50,8 @@ public class FieldList {
      */
     public void setRow(int rowIndex, ArrayList<Field> newRow) throws ArrayIndexOutOfBoundsException, ArrayStoreException{
         try{
-            if(rowIndex<=size.getY()){
-                if(getRow(rowIndex).isEmpty()){
-                    addRow(newRow);
-                } else{
-                    fields.set(rowIndex, newRow);
-                }
+            if(rowIndex<size.getY()){
+                fields.set(rowIndex, newRow);
             } else {
                 throw new ArrayIndexOutOfBoundsException("Row index overflow");
             }
