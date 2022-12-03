@@ -40,18 +40,40 @@ public class Field {
     /**
      * @param value
      */
-    public void setFlag(boolean value){
+    public boolean setFlag(boolean value){
         if(!isOpened){
+            if(value&&hasQuestionMark){
+                hasQuestionMark=false;
+            }
             hasFlag=value;
-        }
+            return hasFlag;
+        } else
+            return false;
     }
 
     /**
      * @param value
      */
-    public void setQuestionMark(boolean value){
+    public boolean setQuestionMark(boolean value){
         if(!isOpened){
+            if(value&&hasFlag)
+                hasFlag=false;
             hasQuestionMark=value;
-        }
+            return hasQuestionMark;
+        } else
+            return false;
+    }
+    public int open() throws IllegalAccessException {
+        if(!isOpened&&!hasFlag&&!hasQuestionMark){
+            if(bomb==null){
+                isOpened=true;
+                return value;
+            }
+            else{
+                bomb.explode();
+                return -1;
+            }
+        } else
+            throw new IllegalAccessException("Field is marked.");
     }
 }
