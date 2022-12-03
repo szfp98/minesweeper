@@ -4,7 +4,7 @@ import minefield.BeginnerMinefield;
 import org.junit.Before;
 import org.junit.Test;
 
-public class generateMinefieldTest {
+public class GenerateMinefieldTest {
     BeginnerMinefield beginnerMinefield;
     @Before
     public void init(){
