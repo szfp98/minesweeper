@@ -1,5 +1,7 @@
 package minefield;
 
+import game.TimeCounter;
+
 import java.util.*;
 
 /**
@@ -9,9 +11,15 @@ public abstract class Minefield {
     protected FieldList fields;
     protected int basicBombs;
     protected int timeBombs;
-
     protected int explodingTime;
     private ArrayList<Position> bombPositions;
+
+    public int getBombPositionsSize(){
+        if(!bombPositions.isEmpty())
+            return bombPositions.size();
+        else
+            return 0;
+    }
 
     /**
      * @param random
@@ -69,7 +77,7 @@ public abstract class Minefield {
     /**
      * @throws ArrayIndexOutOfBoundsException
      */
-    private void createBombFields() throws ArrayIndexOutOfBoundsException, ArrayStoreException{
+    private void createBombFields(TimeCounter tc) throws ArrayIndexOutOfBoundsException, ArrayStoreException{
         try{
             bombPositions=new ArrayList<>();
             Position[] basicBombPositions=setBombPositions(basicBombs);
@@ -83,7 +91,7 @@ public abstract class Minefield {
                 Position[] timeBombPositions=setBombPositions(timeBombs);
                 for(Position pos : timeBombPositions){
                     ArrayList<Field> row=fields.getRow(pos.getY());
-                    row.set(pos.getX(), new Field(pos, new TimeBomb(explodingTime)));
+                    row.set(pos.getX(), new Field(pos, new TimeBomb(tc, explodingTime)));
                     fields.setRow(pos.getY(), row);
                     bombPositions.add(pos);
                 }
@@ -118,9 +126,9 @@ public abstract class Minefield {
         return fieldsValues;
     }
 
-    public void generateMinefield(){
+    public void generateMinefield(TimeCounter tc){
         try{
-            createBombFields();
+            createBombFields(tc);
             int[][] fieldsValues=setFieldsValues();
             for(int i=0; i<fields.getSize().getY(); i++){
                 ArrayList<Field> row=fields.getRow(i);

@@ -16,7 +16,7 @@ public class FieldTests {
     public void init(){
         numberField=new Field(new Position(0,0), 2);
         basicBombField=new Field(new Position(1,0), new Bomb());
-        timeBombField=new Field(new Position(0,1), new TimeBomb(5000));
+        //timeBombField=new Field(new Position(0,1), new TimeBomb(5000));
     }
 
     @Test

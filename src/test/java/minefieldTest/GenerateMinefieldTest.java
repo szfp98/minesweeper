@@ -12,7 +12,7 @@ public class GenerateMinefieldTest {
     }
     @Test
     public void generateBeginner(){
-        beginnerMinefield.generateMinefield();
+        //beginnerMinefield.generateMinefield();
         System.out.println("suna");
     }
 }
