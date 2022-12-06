@@ -3,14 +3,14 @@ package minefield;
 import java.util.ArrayList;
 
 /**
- *
+ *Az aknamezőt modellező kétdimenziós tároló
  */
 public class FieldList {
     private ArrayList<ArrayList<Field>> fields;
     private final Size size;
 
     /**
-     * @param size
+     * @param size Az aknamező x, y méretét reprezentáló egység
      */
     public FieldList(Size size){
         this.size=size;
@@ -24,16 +24,13 @@ public class FieldList {
         }
     }
 
-    /**
-     * @return
-     */
     public Size getSize() {
         return size;
     }
 
     /**
-     * @param rowIndex
-     * @return
+     * @param rowIndex Az aknamező y tengelye mentén egy sor indexe
+     * @return Az aknamező sora a megadott indexen
      * @throws ArrayIndexOutOfBoundsException
      */
     public ArrayList<Field> getRow(int rowIndex) throws ArrayIndexOutOfBoundsException{
@@ -44,8 +41,8 @@ public class FieldList {
     }
 
     /**
-     * @param rowIndex
-     * @param newRow
+     * @param rowIndex A szerkeszteni kívánt sor
+     * @param newRow A szerkesztett sor
      * @throws ArrayIndexOutOfBoundsException
      */
     public void setRow(int rowIndex, ArrayList<Field> newRow) throws ArrayIndexOutOfBoundsException, ArrayStoreException{

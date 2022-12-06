@@ -1,19 +1,18 @@
 package game;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Date;
 
 public class Result {
-    private Date date;
-    private String level;
-    private int time;
+    private final Date date;
+    private final String level;
+    private final int time;
 
+    /**
+     * Egy győztes játék eredményét reprezentáló osztály konstruktora
+     * @param date A játék dátuma
+     * @param level A játék szintje
+     * @param time A végigjátszás ideje
+     */
     public Result(Date date, String level, int time){
         if(date.equals(new Date())||date.before(new Date()))
             this.date=date;
@@ -37,4 +36,7 @@ public class Result {
     public int getTime(){
         return time;
     }
+
+    public String getLevel(){return level;}
+    public Date getDate(){return date;}
 }

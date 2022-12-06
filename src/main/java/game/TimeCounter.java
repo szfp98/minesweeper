@@ -3,6 +3,9 @@ package game;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Az eltelt és hátralevő idő számításához használt osztály.
+ */
 public class TimeCounter extends Counter{
     private int elapsedTime;
     private Timer timer;
@@ -15,6 +18,9 @@ public class TimeCounter extends Counter{
         elapsedTime=0;
     }
 
+    /**
+     * A számláló elindítása
+     */
     public void startTimeCounter(){
         timer.schedule(new TimerTask() {
             @Override
@@ -31,10 +37,18 @@ public class TimeCounter extends Counter{
             }
         }, 0, 1000);
     }
+
+    /**
+     * @param value A számlálót felfelé számlálásról lefelé állítva a megadott robbanási időt számolja vissza
+     */
     public void countDown(int value){
         this.value=value;
         direction=false;
     }
+
+    /**
+     * Megfelezi a visszaszámlálás időtartamát
+     */
     public void setHalfTime(){
         countDown(value/2);
     }
@@ -43,5 +57,10 @@ public class TimeCounter extends Counter{
     }
 
     public boolean getDirection(){return direction;}
+
+    public void stopTimeCounter(){
+        timer.cancel();
+        timer.purge();
+    }
 
 }

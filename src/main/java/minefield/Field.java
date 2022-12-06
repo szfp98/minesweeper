@@ -1,10 +1,10 @@
 package minefield;
 
 /**
- *
+ * A játék atomi egysége.
  */
 public class Field {
-    private final Position position;
+    //private final Position position;
     private final int value;
     private final Bomb bomb;
     private boolean isOpened;
@@ -12,11 +12,11 @@ public class Field {
     private boolean hasQuestionMark;
 
     /**
-     * @param position
-     * @param value
+     * @param position A játéktáblán elhelyezkedő mező x,y pozíciója
+     * @param value A szomszédos aknamezők száma
      */
     public Field(Position position, int value) {
-        this.position=position;
+        //this.position=position;
         this.value=value;
         bomb=null;
         isOpened=false;
@@ -25,11 +25,11 @@ public class Field {
     }
 
     /**
-     * @param position
-     * @param bomb
+     * @param position A játéktáblán elhelyezkedő mező x,y pozíciója
+     * @param bomb A mezőn elrejtett bomba
      */
     public Field(Position position, Bomb bomb){
-        this.position=position;
+        //this.position=position;
         this.value=0;
         this.bomb=bomb;
         this.isOpened=false;
@@ -37,9 +37,18 @@ public class Field {
         this.hasQuestionMark=false;
     }
 
-    /**
-     * @param value
-     */
+    public int getValue(){
+        if(bomb!=null)
+            return -1;
+        else
+            return value;
+    }
+
+    public Bomb getBomb(){
+        return bomb;
+    }
+
+
     public boolean setFlag(boolean value){
         if(!isOpened){
             if(value&&hasQuestionMark){
@@ -51,9 +60,7 @@ public class Field {
             return false;
     }
 
-    /**
-     * @param value
-     */
+
     public boolean setQuestionMark(boolean value){
         if(!isOpened){
             if(value&&hasFlag)
@@ -63,6 +70,10 @@ public class Field {
         } else
             return false;
     }
+
+    /**
+     * @return A mezőt megnyitva megkapjuk a mező értékét. Ha a mezőn bomba van, -1-et ad vissza.
+     */
     public int open() throws IllegalAccessException {
         if(!isOpened&&!hasFlag&&!hasQuestionMark){
             if(bomb==null){
@@ -75,5 +86,9 @@ public class Field {
             }
         } else
             throw new IllegalAccessException("Field is marked.");
+    }
+
+    public boolean isOpened(){
+        return isOpened;
     }
 }

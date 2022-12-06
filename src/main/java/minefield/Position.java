@@ -1,7 +1,7 @@
 package minefield;
 
 /**
- *
+ *Az aknamezőn elhelyezkedést reprezentáló x, y vektor
  */
 public class Position {
     private final int x;
@@ -11,16 +11,10 @@ public class Position {
         this.y=y;
     }
 
-    /**
-     * @return
-     */
     public int getX(){
         return x;
     }
 
-    /**
-     * @return
-     */
     public int getY() {
         return y;
     }

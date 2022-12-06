@@ -1,5 +1,8 @@
 package game;
 
+/**
+ * Számálót reprezentáló abszrakt osztály
+ */
 public abstract class Counter {
     protected int value;
     public int getValue(){return value;}
